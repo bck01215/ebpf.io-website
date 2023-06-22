@@ -60,10 +60,14 @@ module.exports = async ({ graphql, actions }) => {
   const { group: groupedCategories, totalCount, nodes: allPosts } = result.data.allMdx;
   const { externalPosts } = result.data;
 
-  const categories = groupedCategories.map(({ fieldValue }) => ({
-    name: fieldValue,
-    slug: slugifyCategory(fieldValue),
-  }));
+  const allPostsCategory = { name: 'All posts', slug: '' };
+  const categories = [
+    allPostsCategory,
+    ...groupedCategories.map(({ fieldValue }) => ({
+      name: fieldValue,
+      slug: slugifyCategory(fieldValue),
+    })),
+  ];
 
   const externalCategory = { name: 'External', slug: 'external' };
   const categoriesWithExternal = [...categories, externalCategory];
