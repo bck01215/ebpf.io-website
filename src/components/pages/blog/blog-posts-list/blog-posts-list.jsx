@@ -4,9 +4,8 @@ import React from 'react';
 
 import BlogPostCard from 'components/pages/blog/blog-post-card';
 import { blogPostCardPropTypes } from 'components/pages/blog/blog-post-card/blog-post-card';
-
-import SubscriptionForm from '../../../shared/subscription-form';
-import Pagination from '../pagination';
+import Pagination from 'components/pages/blog/pagination';
+import SubscriptionForm from 'components/shared/subscription-form';
 
 const BlogPostsList = ({ className, items, pageCount, currentPageIndex, categorySlug }) => (
   <div className={clsx('flex flex-col', className)}>
