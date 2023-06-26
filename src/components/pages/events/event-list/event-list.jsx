@@ -5,7 +5,7 @@ import useLocation from 'react-use/lib/useLocation';
 
 import Card from 'components/pages/events/card';
 import Filters from 'components/pages/events/filters';
-import Pagination from 'components/pages/events/pagination';
+import Pagination from 'components/shared/pagination';
 import SubscriptionForm from 'components/shared/subscription-form';
 import { EVENT_PER_PAGE } from 'constants/event';
 import { eventFilters } from 'constants/event-filters';
@@ -32,6 +32,17 @@ const EventList = ({ allEvents, totalCount }) => {
   const handleFilters = (filter, newValues) => {
     setActiveFilters((prev) => ({ ...prev, [filter.label]: newValues }));
     setEventPositionStart(0);
+  };
+
+  const handlePageChange = ({ selected }) => {
+    const newOffSet = (selected * EVENT_PER_PAGE) % totalCount;
+    setEventPositionStart(newOffSet);
+
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
   };
 
   useEffect(() => {
@@ -84,7 +95,7 @@ const EventList = ({ allEvents, totalCount }) => {
   const pageCount = Math.ceil(filteredEvents.length / EVENT_PER_PAGE);
 
   return (
-    <section className="safe-paddings pt-6 pb-28 lg:pb-24 md:pb-16 sm:pb-12" id="ref">
+    <section className="safe-paddings pb-28 pt-6 lg:pb-24 md:pb-16 sm:pb-12" id="ref">
       <Filters
         eventFilters={eventFilters}
         activeFilters={activeFilters}
@@ -117,9 +128,10 @@ const EventList = ({ allEvents, totalCount }) => {
 
       {pageCount > 1 && (
         <Pagination
+          className="container mt-16 sm:mt-12"
           totalCount={totalCount}
           pageCount={pageCount}
-          callback={setEventPositionStart}
+          handlePageChange={handlePageChange}
         />
       )}
     </section>
